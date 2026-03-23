@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>System Architecture | Quantum Screener</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      /* Specific overrides for the About Page */
+      .info-section {
+        margin-bottom: 24px;
+      }
+      .info-section p {
+        color: #cbd5e1;
+        font-size: 1.05rem;
+        line-height: 1.8;
+        margin-bottom: 20px;
+        font-weight: 400;
+      }
+      .tech-stack {
+        display: flex;
+        gap: 12px;
+        margin-top: 20px;
+        flex-wrap: wrap;
+      }
+      .tag {
+        background: rgba(0, 243, 255, 0.1);
+        color: var(--cyan);
+        padding: 6px 14px;
+        border-radius: 6px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        border: 1px solid rgba(0, 243, 255, 0.2);
+      }
+      .tag-purple {
+        background: rgba(157, 78, 221, 0.1);
+        color: var(--purple-light);
+        border-color: rgba(157, 78, 221, 0.2);
+      }
+
+      .grid-3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 32px;
+      }
+      .grid-2 {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 32px;
+        margin-top: 32px;
+      }
+
+      .architecture-card {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .architecture-card h3 {
+        color: #fff;
+        font-size: 1.2rem;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        border-bottom: 1px solid var(--glass-border);
+        padding-bottom: 12px;
+        margin-bottom: 8px;
+      }
+      .architecture-card p {
+        color: #cbd5e1;
+        font-size: 0.95rem;
+        line-height: 1.7;
+      }
+
+      @media (max-width: 1024px) {
+        .grid-3,
+        .grid-2 {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="background-glow"></div>
+    <div class="app-container">
+      
+      <header class="top-nav">
+        <div class="brand">
+          <div class="brand-icon">Q</div>
+          <h1>QUANTUM <span class="light-text">Screener</span></h1>
+        </div>
+        <nav class="nav-links">
+          <a href="index.html">Home</a>
+          <a href="learn.html">Learn</a>
+          <a href="about.html" class="active">Architecture</a>
+        </nav>
+      </header>
+
+      <section class="glass-panel glow-border-purple" style="margin-bottom: 32px;">
+        <div class="panel-header">
+          <h2>Project Overview & Technology Stack</h2>
+        </div>
+        <div class="info-section">
+          <p>
+            Quantum Screener is a production-grade algorithmic assessment tool designed to mimic the workflow process of institutional investment teams. The backend relies on a highly optimized 
+            <strong>Unified JSON Prompting Architecture</strong>, which allows a single AI inference call to process data through three distinct analytical personas simultaneously, reducing API latency and preventing rate-limit bottlenecks.
+          </p>
+
+          <div class="tech-stack">
+            <span class="tag">Python (FastAPI)</span>
+            <span class="tag">Groq API (Llama-3)</span>
+            <span class="tag tag-purple">Yahoo Finance API</span>
+            <span class="tag tag-purple">Chart.js</span>
+            <span class="tag">AI EdTech</span>
+          </div>
+        </div>
+      </section>
+
+      <div class="grid-3">
+        <div class="architecture-card glass-panel glow-border-cyan">
+          <h3 class="text-cyan">1. The Bull Persona</h3>
+          <p>
+            Operating within the unified pipeline, this logical segment acts as an optimistic portfolio manager. It consumes raw financial data (Market Cap, Revenue, P/E) in Indian Rupees and is instructed to identify growth potential and argue passionately for the asset's upside.
+          </p>
+        </div>
+
+        <div class="architecture-card glass-panel glow-border-purple">
+          <h3 class="text-purple">2. The Bear Persona</h3>
+          <p>
+            Processed in parallel, the Bear Persona plays the role of a risk-averse short seller. It analyzes the exact same dataset but is programmed to strictly identify macroeconomic headwinds, overvaluation indicators, and structural flaws in the company.
+          </p>
+        </div>
+
+        <div class="architecture-card glass-panel glow-border-cyan">
+          <h3 class="text-cyan">3. The Judge Persona</h3>
+          <p>
+            The system's final decision layer. The Judge plays the role of the Chief Investment Officer. It weighs the generated arguments from both the Bull and Bear perspectives against the live market data to output a strict, decisive verdict: BUY, HOLD, or SELL.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid-3" style="margin-top: 32px;">
+        <div class="architecture-card glass-panel glow-border-purple">
+          <h3 class="text-purple">Interactive RAG Chat</h3>
+          <p>
+            Once the initial analysis is generated, the platform unlocks a contextual chat interface. Users can pose highly specific questions about the asset's history or market sentiment. The backend maintains the context of the active ticker, offering seamless Retrieval-Augmented Generation functionality.
+          </p>
+        </div>
+
+        <div class="architecture-card glass-panel glow-border-cyan">
+          <h3 class="text-cyan">Quantum Academy (EdTech)</h3>
+          <p>
+            Bridging the gap between complex FinTech and beginner education. This module dynamically generates custom, 3D-animated study flashcards. Users input any financial topic, and the AI agent structures a tailored 20-card deck to teach Indian market fundamentals in real-time.
+          </p>
+        </div>
+
+        <div class="architecture-card glass-panel glow-border-purple">
+          <h3 class="text-purple">Dynamic Visualization</h3>
+          <p>
+           The frontend utilizes Chart.js to render the asset's historical price action using smooth, tension-adjusted line charts with dynamic institutional gradients. The AI's final verdict is also mathematically parsed into a responsive Sentiment Doughnut Chart.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </body>
+</html>

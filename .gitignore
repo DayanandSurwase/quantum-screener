@@ -1,0 +1,17 @@
+# Environments
+venv/
+env/
+.env
+
+# Python Cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Mac/Windows system files
+.DS_Store
+Thumbs.db
+
+# Project specific
+backend/__pycache__/

@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quantum Academy | Learn</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="background-glow"></div>
+    <div class="app-container">
+      <header class="top-nav">
+        <div class="brand">
+          <div class="brand-icon">Q</div>
+          <h1>QUANTUM <span class="light-text">Academy</span></h1>
+        </div>
+        <nav class="nav-links">
+          <a href="index.html">Home</a>
+          <a href="learn.html" class="active">Learn</a>
+          <a href="about.html">Architecture</a>
+        </nav>
+      </header>
+
+      <section class="search-panel glass-panel">
+        <div class="search-bar">
+          <span class="search-prefix">TOPIC</span>
+          <input
+            type="text"
+            id="topicInput"
+            placeholder="What do you want to learn? (e.g., Basics of Stock Market, Mutual Funds)..."
+            autocomplete="off"
+          />
+          <button id="generateCardsBtn">GENERATE</button>
+        </div>
+      </section>
+
+      <div id="loader" class="hidden" style="text-align: center; padding: 50px">
+        <div class="loader-ring"></div>
+        <p class="loader-text text-cyan">
+          AI is generating your custom flashcards...
+        </p>
+      </div>
+
+      <div id="deckArea" class="learn-container hidden fade-in">
+        <div class="flashcard-wrapper" id="flashcardWrapper">
+          <div class="flashcard" id="flashcard">
+            <div class="flashcard-front"><h3 id="cardFront">Question</h3></div>
+            <div class="flashcard-back"><p id="cardBack">Answer</p></div>
+          </div>
+        </div>
+
+        <div class="card-controls">
+          <button id="prevBtn">← Previous</button>
+          <span id="cardCounter">1 / 20</span>
+          <button id="nextBtn">Next →</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="learn.js"></script>
+  </body>
+</html>
