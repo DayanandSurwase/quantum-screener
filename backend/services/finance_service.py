@@ -4,54 +4,59 @@ import random
 from backend.models.schemas import StockData
 
 
-def get_stealth_session():
-    """Generates a random, brand-new browser fingerprint for every single request."""
-    browsers = ["chrome110", "chrome116", "chrome120", "edge101", "safari15_5"]
-    stealth_browser = random.choice(browsers)
-    session = requests.Session(impersonate=stealth_browser)
-    session.headers.update({"Cache-Control": "no-cache", "Pragma": "no-cache"})
-    return session
+session = requests.Session()
+session.headers.update({
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
+})
 
 def get_exchange_rate(from_currency: str, to_currency: str = "INR") -> float:
     if from_currency == to_currency:
         return 1.0
     try:
-        ticker = f"{from_currency}{to_currency}=X"
-        rate_info = yf.Ticker(ticker, session=get_stealth_session()).info
-        return rate_info.get("regularMarketPrice", rate_info.get("currentPrice", 83.0))
+        ticker = yf.Ticker(f"{from_currency}{to_currency}=X", session=session)
+        return float(ticker.fast_info.last_price)
     except:
-        return 83.0 
+        return 83.0
 
 def get_stock_data(ticker: str) -> StockData:
-    stock = yf.Ticker(ticker, session=get_stealth_session())
+    stock = yf.Ticker(ticker, session=session)
     try:
-        info = stock.info
+        f_info = stock.fast_info
+        hist = stock.history(period="5d")
+        
+        if hist.empty:
+            raise ValueError(f"Yahoo Finance rejected the live data request for {ticker}.")
+            
+        raw_price = float(hist["Close"].iloc[-1])
+        raw_mcap = f_info.market_cap
+        native_currency = f_info.currency.upper() if hasattr(f_info, 'currency') else "INR"
+        
+        pe_ratio = None
+        revenue = None
+        try:
+            info = stock.info
+            pe_ratio = info.get("trailingPE", info.get("forwardPE"))
+            revenue = info.get("totalRevenue")
+        except:
+            pass
+
+        exchange_rate = get_exchange_rate(native_currency, "INR")
+
+        return StockData(
+            ticker=ticker.upper(),
+            company_name=ticker.upper(), 
+            price=raw_price * exchange_rate if raw_price else None,
+            market_cap=raw_mcap * exchange_rate if raw_mcap else None,
+            revenue=revenue * exchange_rate if revenue else None,
+            pe_ratio=pe_ratio,
+            currency="INR" 
+        )
     except Exception as e:
-        raise ValueError(f"Failed to fetch data for {ticker}. Details: {str(e)}")
+        raise ValueError(f"Failed to fetch live data for {ticker}. Details: {str(e)}")
     
-    native_currency = info.get("currency", "INR").upper()
-    exchange_rate = get_exchange_rate(native_currency, "INR")
-
-    raw_price = info.get("currentPrice", info.get("regularMarketPrice"))
-    raw_mcap = info.get("marketCap")
-    raw_rev = info.get("totalRevenue")
-
-    price = raw_price * exchange_rate if raw_price else None
-    market_cap = raw_mcap * exchange_rate if raw_mcap else None
-    revenue = raw_rev * exchange_rate if raw_rev else None
-
-    return StockData(
-        ticker=ticker.upper(),
-        company_name=info.get("shortName", ticker),
-        price=price,
-        market_cap=market_cap,
-        revenue=revenue,
-        pe_ratio=info.get("trailingPE", info.get("forwardPE")),
-        currency="INR" 
-    )
-
+    
 def get_historical_data(ticker: str):
-    stock = yf.Ticker(ticker, session=get_stealth_session())
+    stock = yf.Ticker(ticker, session=session)
     
     native_currency = stock.info.get("currency", "INR").upper()
     exchange_rate = get_exchange_rate(native_currency, "INR")
@@ -70,31 +75,27 @@ def get_historical_data(ticker: str):
     return chart_data
 
 def get_market_news():
-    """Fetches live daily changes for top stocks to populate the Market Panel."""
-    watchlist = ["NVDA", "TTE.PA", "RELIANCE.NS"]
-    
+    """Fetches live daily changes individually to avoid bulk-download blocks."""
+    watchlist = ["RELIANCE.NS", "HDFCBANK.NS", "TCS.NS", "NVDA", "AAPL"]
     trending = []
-    try:
-        data = yf.download(watchlist, period="2d", group_by="ticker", progress=False, session=get_stealth_session())
-        
-        for ticker in watchlist:
-            if ticker in data:
-                closes = data[ticker]['Close'].dropna().values
-                if len(closes) >= 2:
-                    prev_close = closes[-2]
-                    current = closes[-1]
-                    pct_change = ((current - prev_close) / prev_close) * 100
-                    
-                    display_ticker = ticker.split(".")[0]
-                    
-                    trending.append({
-                        "ticker": display_ticker,
-                        "change": round(pct_change, 2)
-                    })
-        
-        trending = sorted(trending, key=lambda x: abs(x["change"]), reverse=True)[:3]
-    except Exception as e:
-        trending = [{"ticker": "NIFTY50", "change": 0.0}]
+    
+    for t in watchlist:
+        try:
+            stock = yf.Ticker(t, session=session)
+            hist = stock.history(period="5d")
+            if len(hist) >= 2:
+                prev_close = float(hist["Close"].iloc[-2])
+                current = float(hist["Close"].iloc[-1])
+                pct_change = ((current - prev_close) / prev_close) * 100
+                
+                trending.append({
+                    "ticker": t.replace(".NS", ""),
+                    "change": round(pct_change, 2)
+                })
+        except:
+            continue
+            
+    trending = sorted(trending, key=lambda x: abs(x["change"]), reverse=True)[:3]
 
     return {
         "trending": trending,

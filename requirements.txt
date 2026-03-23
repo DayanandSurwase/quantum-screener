@@ -2,7 +2,7 @@ fastapi
 uvicorn
 groq
 yfinance
+requests
 pydantic
 pydantic-settings
 python-dotenv
-random
