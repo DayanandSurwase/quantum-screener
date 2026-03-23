@@ -1,3 +1,4 @@
+/* Color Variables */
 :root {
     --bg-base: #07050f;
     --glass-bg: rgba(22, 18, 38, 0.85);
@@ -12,12 +13,14 @@
     --font-ui: 'Inter', sans-serif;
 }
 
+/* Reset */
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
+/* Base Body Styles */
 body {
     background-color: var(--bg-base);
     color: var(--text-main);
@@ -28,6 +31,7 @@ body {
     line-height: 1.6;
 }
 
+/* Background Gradients */
 .background-glow {
     position: fixed;
     top: 0;
@@ -40,6 +44,7 @@ body {
         radial-gradient(circle at 85% 60%, rgba(0, 243, 255, 0.08), transparent 35%);
 }
 
+/* Layout Containers */
 .app-container {
     max-width: 1400px;
     margin: 0 auto;
@@ -55,6 +60,7 @@ body {
     gap: 48px;
 }
 
+/* Utilities */
 a {
     text-decoration: none;
     color: inherit;
@@ -96,6 +102,7 @@ a {
     background: rgba(246, 70, 93, 0.15);
 }
 
+/* Glassmorphism Panels */
 .glass-panel {
     background: var(--glass-bg);
     backdrop-filter: blur(20px);
@@ -118,6 +125,7 @@ a {
     box-shadow: 0 -4px 20px -10px var(--purple), 0 10px 30px rgba(0, 0, 0, 0.4);
 }
 
+/* Navigation */
 .top-nav {
     display: flex;
     justify-content: space-between;
@@ -177,6 +185,7 @@ a {
     border-bottom-color: var(--cyan);
 }
 
+/* Search Bar */
 .search-bar {
     display: flex;
     gap: 18px;
@@ -204,6 +213,7 @@ input::placeholder {
     color: #64748b;
 }
 
+/* Buttons */
 button {
     background: rgba(157, 78, 221, 0.15);
     color: var(--text-main);
@@ -222,6 +232,7 @@ button:hover {
     box-shadow: 0 0 20px rgba(157, 78, 221, 0.5);
 }
 
+/* KPI Grid */
 .kpi-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -248,6 +259,7 @@ button:hover {
     font-weight: 700;
 }
 
+/* Charts */
 .charts-grid {
     display: grid;
     grid-template-columns: 2fr 1fr;
@@ -295,6 +307,7 @@ button:hover {
     flex-grow: 1;
 }
 
+/* Typography */
 .ai-text {
     color: #e2e8f0;
     font-size: 1.05rem;
@@ -315,7 +328,7 @@ button:hover {
     gap: 32px;
 }
 
-/* CHAT STYLES */
+/* Chat UI */
 .chat-section {
     display: flex;
     flex-direction: column;
@@ -430,6 +443,7 @@ button:hover {
     padding: 12px 24px;
 }
 
+/* Market Intel */
 .intel-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -478,6 +492,7 @@ button:hover {
     font-weight: 600;
 }
 
+/* Loader & Animations */
 #loader {
     text-align: center;
     padding: 100px;
@@ -523,25 +538,7 @@ button:hover {
     }
 }
 
-@media (max-width: 1024px) {
-    .charts-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .kpi-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .debate-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .intel-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-/* --- FLASHCARDS --- */
+/* Flashcards UI */
 .learn-container {
     display: flex;
     flex-direction: column;
@@ -681,4 +678,246 @@ button:hover {
     min-width: 70px;
     text-align: center;
     letter-spacing: 1px;
+}
+
+/* About Page Styles */
+.info-section {
+    margin-bottom: 24px;
+}
+
+.info-section p {
+    color: #cbd5e1;
+    font-size: 1.05rem;
+    line-height: 1.8;
+    margin-bottom: 20px;
+    font-weight: 400;
+}
+
+.tech-stack {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+.tag {
+    background: rgba(0, 243, 255, 0.1);
+    color: var(--cyan);
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    border: 1px solid rgba(0, 243, 255, 0.2);
+}
+
+.tag-purple {
+    background: rgba(157, 78, 221, 0.1);
+    color: var(--purple-light);
+    border-color: rgba(157, 78, 221, 0.2);
+}
+
+.grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+}
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+    margin-top: 32px;
+}
+
+.architecture-card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.architecture-card h3 {
+    color: #fff;
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid var(--glass-border);
+    padding-bottom: 12px;
+    margin-bottom: 8px;
+}
+
+.architecture-card p {
+    color: #cbd5e1;
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+/* Responsive Design System */
+
+/* TABLETS (Max 1024px) */
+@media (max-width: 1024px) {
+
+    .charts-grid,
+    .debate-grid,
+    .intel-grid,
+    .grid-3,
+    .grid-2 {
+        grid-template-columns: 1fr;
+    }
+
+    .kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .canvas-wrapper {
+        height: 320px;
+    }
+}
+
+/* MOBILE PHONES (Max 768px) */
+@media (max-width: 768px) {
+    .app-container {
+        padding: 20px 15px;
+        gap: 24px;
+    }
+
+    /* 1. Fixed Title & Brand Header */
+    .top-nav {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+    }
+
+    .brand {
+        flex-direction: column;
+        gap: 8px;
+        justify-content: center;
+    }
+
+    /* Stacks logo above title */
+    .brand-icon {
+        width: 44px;
+        height: 44px;
+        font-size: 1.4rem;
+    }
+
+    .brand h1 {
+        font-size: 1.3rem;
+    }
+
+    .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    /* 2. Fixed Search Bar & Form Panel */
+    .search-bar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+        background: rgba(0, 0, 0, 0.25);
+        padding: 20px;
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .search-prefix {
+        text-align: center;
+        margin-bottom: -5px;
+    }
+
+    input {
+        text-align: center;
+        background: rgba(255, 255, 255, 0.05);
+        padding: 14px;
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* 3. Button Wrapping Fix */
+    button {
+        width: 100%;
+        padding: 14px;
+        font-size: 0.95rem;
+        white-space: nowrap;
+    }
+
+    .glass-panel {
+        padding: 20px;
+    }
+
+    .kpi-grid {
+        gap: 16px;
+    }
+
+    .flashcard-front,
+    .flashcard-back {
+        padding: 30px 20px;
+    }
+
+    .flashcard-front h3 {
+        font-size: 1.6rem;
+    }
+
+    .flashcard-back p {
+        font-size: 1.1rem;
+    }
+}
+
+/* SMALL PHONES (Max 480px) */
+@media (max-width: 480px) {
+    .kpi-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .panel-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .panel-header h2 {
+        font-size: 1.15rem;
+    }
+
+    .brand h1 {
+        font-size: 1.15rem;
+    }
+
+    button {
+        padding: 12px;
+        font-size: 0.85rem;
+    }
+
+    .chat-input-wrapper {
+        flex-direction: column;
+    }
+
+    .chat-input-wrapper button {
+        width: 100%;
+    }
+
+    .flashcard-wrapper {
+        height: 320px;
+    }
+
+    .flashcard-front h3 {
+        font-size: 1.4rem;
+    }
+
+    .flashcard-back p {
+        font-size: 0.95rem;
+    }
+
+    .card-controls {
+        flex-direction: column;
+        width: 100%;
+        gap: 12px;
+        border-radius: 16px;
+    }
+
+    .card-controls button {
+        width: 100%;
+    }
 }
