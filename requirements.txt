@@ -5,3 +5,4 @@ yfinance
 pydantic
 pydantic-settings
 python-dotenv
+random

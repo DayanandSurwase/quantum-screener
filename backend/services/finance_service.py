@@ -1,21 +1,29 @@
 import yfinance as yf
 from curl_cffi import requests
+import random
 from backend.models.schemas import StockData
 
-session = requests.Session(impersonate="chrome110")
+
+def get_stealth_session():
+    """Generates a random, brand-new browser fingerprint for every single request."""
+    browsers = ["chrome110", "chrome116", "chrome120", "edge101", "safari15_5"]
+    stealth_browser = random.choice(browsers)
+    session = requests.Session(impersonate=stealth_browser)
+    session.headers.update({"Cache-Control": "no-cache", "Pragma": "no-cache"})
+    return session
 
 def get_exchange_rate(from_currency: str, to_currency: str = "INR") -> float:
     if from_currency == to_currency:
         return 1.0
     try:
         ticker = f"{from_currency}{to_currency}=X"
-        rate_info = yf.Ticker(ticker, session=session).info
+        rate_info = yf.Ticker(ticker, session=get_stealth_session()).info
         return rate_info.get("regularMarketPrice", rate_info.get("currentPrice", 83.0))
     except:
         return 83.0 
 
 def get_stock_data(ticker: str) -> StockData:
-    stock = yf.Ticker(ticker, session=session)
+    stock = yf.Ticker(ticker, session=get_stealth_session())
     try:
         info = stock.info
     except Exception as e:
@@ -43,7 +51,7 @@ def get_stock_data(ticker: str) -> StockData:
     )
 
 def get_historical_data(ticker: str):
-    stock = yf.Ticker(ticker, session=session)
+    stock = yf.Ticker(ticker, session=get_stealth_session())
     
     native_currency = stock.info.get("currency", "INR").upper()
     exchange_rate = get_exchange_rate(native_currency, "INR")
@@ -67,7 +75,7 @@ def get_market_news():
     
     trending = []
     try:
-        data = yf.download(watchlist, period="2d", group_by="ticker", progress=False, session=session)
+        data = yf.download(watchlist, period="2d", group_by="ticker", progress=False, session=get_stealth_session())
         
         for ticker in watchlist:
             if ticker in data:
