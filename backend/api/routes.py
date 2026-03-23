@@ -36,6 +36,19 @@ async def analyze_stock(stock: str):
         return response_data
 
     except Exception as e:
+        error_msg = str(e)
+        
+        # 1. THIS PRINTS THE RAW ERROR TO YOUR RENDER DASHBOARD
+        print(f" THE REAL ERROR IS: {error_msg}") 
+        
+        # 2. THIS SHOWS THE REAL ERROR ON YOUR FRONTEND SCREEN
+        if "yahoo" in error_msg.lower() or "yfinance" in error_msg.lower():
+            raise HTTPException(status_code=500, detail=f"YAHOO FINANCE BLOCKED US: {error_msg}")
+        elif "groq" in error_msg.lower():
+            raise HTTPException(status_code=500, detail=f"GROQ AI FAILED: {error_msg}")
+        else:
+            raise HTTPException(status_code=500, detail=f"UNKNOWN ERROR: {error_msg}")
+        
         if "rate limit" in str(e).lower() or "429" in str(e):
             raise HTTPException(status_code=429, detail="The AI is currently analyzing too many requests. Please take a quick breather and try again in 1 minute.")
         raise HTTPException(status_code=500, detail=str(e))
