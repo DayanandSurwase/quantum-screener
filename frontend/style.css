@@ -44,6 +44,10 @@ body {
         radial-gradient(circle at 85% 60%, rgba(0, 243, 255, 0.08), transparent 35%);
 }
 
+.tip {
+    display: none;
+}
+
 /* Layout Containers */
 .app-container {
     max-width: 1400px;
@@ -866,9 +870,16 @@ button:hover {
 }
 
 /* SMALL PHONES (Max 480px) */
-@media (max-width: 480px) {
+@media (max-width: 500px) {
     .kpi-grid {
         grid-template-columns: 1fr;
+    }
+
+    .tip{
+        display: block;
+        color: var(--text-main);
+        width: 100%;
+        font-weight: 500;
     }
 
     .panel-header {

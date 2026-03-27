@@ -1,153 +1,193 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Quantum | AI Financial Analyst</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
     <div class="background-glow"></div>
     <div class="app-container">
-        
-        <header class="top-nav">
-            <div class="brand">
-                <div class="brand-icon">Q</div>
-                <h1>QUANTUM <span class="light-text">Screener</span></h1>
-            </div>
-            <nav class="nav-links">
-                <a href="index.html" class="active">Home</a>
-                <a href="learn.html">Learn</a>
-                <a href="about.html">Architecture</a>
-            </nav>
-        </header>
+      <header class="top-nav">
+        <div class="brand">
+          <div class="brand-icon">Q</div>
+          <h1>QUANTUM <span class="light-text">Screener</span></h1>
+        </div>
+        <nav class="nav-links">
+          <a href="index.html" class="active">Home</a>
+          <a href="learn.html">Learn</a>
+          <a href="about.html">Architecture</a>
+        </nav>
+      </header>
 
-        <section class="search-panel glass-panel">
-            <div class="search-bar">
-                <span class="search-prefix">TICKER</span>
-                <input type="text" id="tickerInput" placeholder="Enter ticker (e.g., RELIANCE.NS, TCS.NS, AAPL)..." autocomplete="off" spellcheck="false">
-                <button id="analyzeBtn">ANALYSIS</button>
-            </div>
+      <marquee direction="right" class="tip">
+        Use desktop for better feel..
+      </marquee>
+
+      <section class="search-panel glass-panel">
+        <div class="search-bar">
+          <span class="search-prefix">TICKER</span>
+          <input
+            type="text"
+            id="tickerInput"
+            placeholder="Enter ticker (e.g., RELIANCE.NS, TCS.NS, AAPL)..."
+            autocomplete="off"
+            spellcheck="false"
+          />
+          <button id="analyzeBtn">ANALYSIS</button>
+        </div>
+      </section>
+
+      <div id="loader" class="hidden">
+        <div class="loader-ring"></div>
+        <p class="loader-text">Loading...</p>
+      </div>
+
+      <div id="resultsPanel" class="hidden fade-in">
+        <section class="kpi-grid">
+          <div class="kpi-card glass-panel">
+            <span class="kpi-label">Live Price</span>
+            <strong class="kpi-value text-cyan" id="price">--</strong>
+          </div>
+          <div class="kpi-card glass-panel">
+            <span class="kpi-label">Market Cap</span>
+            <strong class="kpi-value text-purple" id="marketCap">--</strong>
+          </div>
+          <div class="kpi-card glass-panel">
+            <span class="kpi-label">Total Revenue</span>
+            <strong class="kpi-value text-white" id="revenue">--</strong>
+          </div>
+          <div class="kpi-card glass-panel">
+            <span class="kpi-label">P/E Ratio</span>
+            <strong class="kpi-value text-white" id="peRatio">--</strong>
+          </div>
         </section>
 
-        <div id="loader" class="hidden">
-            <div class="loader-ring"></div>
-            <p class="loader-text">Loading...</p>
-        </div>
+        <section class="charts-grid">
+          <div class="chart-card glass-panel">
+            <div class="panel-header">
+              <h2>Price Action <span id="companyName" class="badge"></span></h2>
+            </div>
+            <div class="canvas-wrapper">
+              <canvas id="priceChart"></canvas>
+            </div>
+          </div>
+          <div class="chart-card glass-panel">
+            <div class="panel-header">
+              <h2>AI Pie Chart</h2>
+            </div>
+            <div class="canvas-wrapper pie-wrapper">
+              <canvas id="sentimentPieChart"></canvas>
+            </div>
+          </div>
+        </section>
 
-        <div id="resultsPanel" class="hidden fade-in">
-            
-            <section class="kpi-grid">
-                <div class="kpi-card glass-panel">
-                    <span class="kpi-label">Live Price</span>
-                    <strong class="kpi-value text-cyan" id="price">--</strong>
-                </div>
-                <div class="kpi-card glass-panel">
-                    <span class="kpi-label">Market Cap</span>
-                    <strong class="kpi-value text-purple" id="marketCap">--</strong>
-                </div>
-                <div class="kpi-card glass-panel">
-                    <span class="kpi-label">Total Revenue</span>
-                    <strong class="kpi-value text-white" id="revenue">--</strong>
-                </div>
-                <div class="kpi-card glass-panel">
-                    <span class="kpi-label">P/E Ratio</span>
-                    <strong class="kpi-value text-white" id="peRatio">--</strong>
-                </div>
-            </section>
+        <section class="verdict-card glass-panel glow-border-purple">
+          <div class="panel-header">
+            <h2>AI Decision</h2>
+          </div>
+          <div class="ai-text primary-verdict" id="decision"></div>
+        </section>
 
-            <section class="charts-grid">
-                <div class="chart-card glass-panel">
-                    <div class="panel-header">
-                        <h2>Price Action <span id="companyName" class="badge"></span></h2>
-                    </div>
-                    <div class="canvas-wrapper">
-                        <canvas id="priceChart"></canvas>
-                    </div>
-                </div>
-                <div class="chart-card glass-panel">
-                    <div class="panel-header">
-                        <h2>AI Pie Chart</h2>
-                    </div>
-                    <div class="canvas-wrapper pie-wrapper">
-                        <canvas id="sentimentPieChart"></canvas>
-                    </div>
-                </div>
-            </section>
+        <section class="debate-grid">
+          <div class="debate-card glass-panel glow-border-cyan">
+            <div class="panel-header">
+              <h2 class="text-cyan">Bullish Thesis(Pros)</h2>
+            </div>
+            <div class="ai-text" id="bullCase"></div>
+          </div>
+          <div class="debate-card glass-panel glow-border-purple">
+            <div class="panel-header">
+              <h2 class="text-purple">Bearish Thesis(Risk)</h2>
+            </div>
+            <div class="ai-text" id="bearCase"></div>
+          </div>
+        </section>
 
-            <section class="verdict-card glass-panel glow-border-purple">
-                <div class="panel-header">
-                    <h2>AI Decision</h2>
-                </div>
-                <div class="ai-text primary-verdict" id="decision"></div>
-            </section>
+        <section class="chat-section glass-panel glow-border-cyan">
+          <div class="panel-header">
+            <h2>
+              Ask Quantum AI about
+              <span id="chatTickerName" class="text-cyan">this asset</span>
+            </h2>
+          </div>
+          <div class="chat-box" id="chatBox">
+            <div class="chat-message ai-message">
+              <div class="msg-avatar">Q</div>
+              <div class="msg-bubble">
+                Analysis complete. What else would you like to know? (e.g.,
+                "Where can I buy this?", "What is the company's history?")
+              </div>
+            </div>
+          </div>
+          <div class="chat-input-wrapper">
+            <input
+              type="text"
+              id="chatInput"
+              placeholder="Ask a follow-up question..."
+              autocomplete="off"
+            />
+            <button id="sendChatBtn">Send</button>
+          </div>
+        </section>
 
-            <section class="debate-grid">
-                <div class="debate-card glass-panel glow-border-cyan">
-                    <div class="panel-header">
-                        <h2 class="text-cyan">Bullish Thesis(Pros)</h2>
-                    </div>
-                    <div class="ai-text" id="bullCase"></div>
-                </div>
-                <div class="debate-card glass-panel glow-border-purple">
-                    <div class="panel-header">
-                        <h2 class="text-purple">Bearish Thesis(Risk)</h2>
-                    </div>
-                    <div class="ai-text" id="bearCase"></div>
-                </div>
-            </section>
-
-            <section class="chat-section glass-panel glow-border-cyan">
-                <div class="panel-header">
-                    <h2>Ask Quantum AI about <span id="chatTickerName" class="text-cyan">this asset</span></h2>
-                </div>
-                <div class="chat-box" id="chatBox">
-                    <div class="chat-message ai-message">
-                        <div class="msg-avatar">Q</div>
-                        <div class="msg-bubble">Analysis complete. What else would you like to know? (e.g., "Where can I buy this?", "What is the company's history?")</div>
-                    </div>
-                </div>
-                <div class="chat-input-wrapper">
-                    <input type="text" id="chatInput" placeholder="Ask a follow-up question..." autocomplete="off">
-                    <button id="sendChatBtn">Send</button>
-                </div>
-            </section>
-
-            <section class="intelligence-section glass-panel">
-                <div class="panel-header border-none">
-                    <h2>Market Intelligence Panel</h2>
-                </div>
-                <div class="intel-grid">
-                    <div class="intel-col">
-                        <h3>Trending Assets</h3>
-                        <ul class="clean-list">
-                            <li><span class="ticker">NVDA</span> <span class="badge-pill bg-green-light text-green">+4.21%</span></li>
-                            <li><span class="ticker">AMD</span> <span class="badge-pill bg-green-light text-green">+2.15%</span></li>
-                            <li><span class="ticker">META</span> <span class="badge-pill bg-red-light text-red">-1.40%</span></li>
-                        </ul>
-                    </div>
-                    <div class="intel-col">
-                        <h3>Quantitative Scans</h3>
-                        <ul class="clean-list">
-                            <li>Undervalued Tech (P/E &lt; 20)</li>
-                            <li>High Momentum Breakouts</li>
-                            <li>Positive Earnings Surprises</li>
-                        </ul>
-                    </div>
-                    <div class="intel-col">
-                        <h3>System Alerts</h3>
-                        <ul class="clean-list">
-                            <li><span class="text-red font-medium">Alert:</span> Volatility spike in Semiconductors</li>
-                            <li><span class="text-cyan font-medium">Macro:</span> Fed Interest Rate decision pending</li>
-                        </ul>
-                    </div>
-                </div>
-            </section>
-
-        </div>
+        <section class="intelligence-section glass-panel">
+          <div class="panel-header border-none">
+            <h2>Market Intelligence Panel</h2>
+          </div>
+          <div class="intel-grid">
+            <div class="intel-col">
+              <h3>Trending Assets</h3>
+              <ul class="clean-list">
+                <li>
+                  <span class="ticker">NVDA</span>
+                  <span class="badge-pill bg-green-light text-green"
+                    >+4.21%</span
+                  >
+                </li>
+                <li>
+                  <span class="ticker">AMD</span>
+                  <span class="badge-pill bg-green-light text-green"
+                    >+2.15%</span
+                  >
+                </li>
+                <li>
+                  <span class="ticker">META</span>
+                  <span class="badge-pill bg-red-light text-red">-1.40%</span>
+                </li>
+              </ul>
+            </div>
+            <div class="intel-col">
+              <h3>Quantitative Scans</h3>
+              <ul class="clean-list">
+                <li>Undervalued Tech (P/E &lt; 20)</li>
+                <li>High Momentum Breakouts</li>
+                <li>Positive Earnings Surprises</li>
+              </ul>
+            </div>
+            <div class="intel-col">
+              <h3>System Alerts</h3>
+              <ul class="clean-list">
+                <li>
+                  <span class="text-red font-medium">Alert:</span> Volatility
+                  spike in Semiconductors
+                </li>
+                <li>
+                  <span class="text-cyan font-medium">Macro:</span> Fed Interest
+                  Rate decision pending
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+      </div>
     </div>
     <script src="script.js"></script>
-</body>
+  </body>
 </html>
