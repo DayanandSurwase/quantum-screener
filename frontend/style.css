@@ -46,6 +46,18 @@ body {
 
 .tip {
     display: none;
+    white-space: nowrap;
+    animation: scroll-right 8s linear infinite;
+}
+
+@keyframes scroll-right {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(100%);
+    }
 }
 
 /* Layout Containers */
@@ -875,11 +887,8 @@ button:hover {
         grid-template-columns: 1fr;
     }
 
-    .tip{
+    .tip {
         display: block;
-        color: var(--text-main);
-        width: 100%;
-        font-weight: 500;
     }
 
     .panel-header {
