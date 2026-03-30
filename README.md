@@ -16,7 +16,7 @@ Quantum Screener is a production-grade algorithmic assessment tool designed to m
 
 ---
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 **Frontend:**
 * HTML5 & CSS3 (Advanced Glassmorphism & 3D Transforms)
@@ -31,7 +31,7 @@ Quantum Screener is a production-grade algorithmic assessment tool designed to m
 
 ---
 
-## 🏗️System Architecture
+## System Architecture
 
 Quantum Screener abandons the traditional "single prompt" AI approach. Instead, it utilizes a **Unified JSON Prompting Architecture**.
 
